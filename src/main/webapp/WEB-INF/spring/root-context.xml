@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
 	
@@ -24,5 +26,11 @@
  		<constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory"/>
 	</bean>
 	<!-- ******************데이터베이스에 접속할 수 있는 bean 코드 끝****************** -->	
+	
+	<!-- 패키지 -->
+	<!-- Namespaces 탭에서 context 선택해 주어야 context prefix 사용 가능. -->
+	<context:component-scan base-package="my.likeaglow.kuzuroshop.domain"></context:component-scan>
+	<context:component-scan base-package="my.likeaglow.kuzuroshop.persistence"></context:component-scan>
+	<context:component-scan base-package="my.likeaglow.kuzuroshop.service"></context:component-scan>
 		
 </beans>
