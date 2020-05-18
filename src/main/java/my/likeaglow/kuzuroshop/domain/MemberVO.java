@@ -1,4 +1,4 @@
-package my.likeaglow.kuzuroshop.controller;
+package my.likeaglow.kuzuroshop.domain;
 
 import java.util.Date;
 
@@ -20,11 +20,11 @@ public class MemberVO {
     private String userId;
     private String userPass;
     private String userName;
-    private String userPhone;
+    private String userPhon;
     private String userAddr1;
     private String userAddr2;
     private String userAddr3;
-    private Date regDate;
+    private Date regiDate;
     private int verify;
 
     public String getUserId() {
@@ -51,12 +51,12 @@ public class MemberVO {
         this.userName = userName;
     }
 
-    public String getUserPhone() {
-        return userPhone;
+    public String getUserPhon() {
+        return userPhon;
     }
 
-    public void setUserPhone(String userPhone) {
-        this.userPhone = userPhone;
+    public void setUserPhon(String userPhone) {
+        this.userPhon = userPhone;
     }
 
     public String getUserAddr1() {
@@ -83,12 +83,12 @@ public class MemberVO {
         this.userAddr3 = userAddr3;
     }
 
-    public Date getRegDate() {
-        return regDate;
+    public Date getRegiDate() {
+        return regiDate;
     }
 
-    public void setRegDate(Date regDate) {
-        this.regDate = regDate;
+    public void setRegiDate(Date regiDate) {
+        this.regiDate = regiDate;
     }
 
     public int getVerify() {

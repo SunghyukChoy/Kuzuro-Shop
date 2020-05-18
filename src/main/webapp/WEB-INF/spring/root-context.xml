@@ -2,7 +2,11 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:context="http://www.springframework.org/schema/context"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+	xsi:schemaLocation="http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.3.xsd
+		http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
@@ -10,10 +14,10 @@
 	<!-- ******************데이터베이스에 접속할 수 있는 bean 코드 시작****************** -->
 	<bean class="org.springframework.jdbc.datasource.DriverManagerDataSource" id="dataSource">
 			<!-- pom.xml에서 필요한 라이브러리 작성 안 하면 class에 빨간줄 그어짐.. -->
- 		<property name="driverClassName" value="com.mysql.cj.jdbc.Driver" />
- 		<property name="url" value="jdbc:mysql://localhost:3306" /> 		
- 		<property name="username" value="kuzuro" />
- 		<property name="password" value="1111" />
+ 		<property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy" />
+ 		<property name="url" value="jdbc:log4jdbc:oracle:thin:@localhost:1521/XE" /> 		
+ 		<property name="username" value="choi" />
+ 		<property name="password" value="1234" />
 	</bean>
 
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">

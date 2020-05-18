@@ -1,4 +1,4 @@
-package my.likeaglow.kuzuroshop.controller;
+package my.likeaglow.kuzuroshop.domain;
 
 import java.util.Date;
 
