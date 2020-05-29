@@ -12,7 +12,7 @@
 	
 	<!-- Application Loggers -->
 	<logger name="my.likeaglow.kuzuroshop">
-		<level value="info" />
+		<level value="debug" />
 	</logger>
 	
 	<!-- 3rdparty Loggers -->

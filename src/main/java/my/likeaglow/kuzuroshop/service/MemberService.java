@@ -2,7 +2,6 @@ package my.likeaglow.kuzuroshop.service;
 
 import javax.servlet.http.HttpSession;
 
-import my.likeaglow.kuzuroshop.domain.LoginVO;
 import my.likeaglow.kuzuroshop.domain.MemberVO;
 
 public interface MemberService {
@@ -11,7 +10,7 @@ public interface MemberService {
     public void signup(MemberVO vo) throws Exception;
 
     // 로그인
-    public MemberVO signin(LoginVO vo) throws Exception;
+    public MemberVO signin(MemberVO vo) throws Exception;
 
     // 로그아웃
     public void signout(HttpSession session) throws Exception;

@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import my.likeaglow.kuzuroshop.domain.LoginVO;
 import my.likeaglow.kuzuroshop.domain.MemberVO;
 import my.likeaglow.kuzuroshop.service.MemberService;
 
@@ -64,7 +63,7 @@ public class MemberController {
 
     // 로그인 post
     @RequestMapping(value = "/signin", method = RequestMethod.POST)
-    public String postSignin(LoginVO vo, HttpServletRequest req, RedirectAttributes rttr) throws Exception {
+    public String postSignin(MemberVO vo, HttpServletRequest req, RedirectAttributes rttr) throws Exception {
         logger.info("post signin");
 
         MemberVO login = service.signin(vo);

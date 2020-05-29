@@ -5,7 +5,6 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Service;
 
-import my.likeaglow.kuzuroshop.domain.LoginVO;
 import my.likeaglow.kuzuroshop.domain.MemberVO;
 import my.likeaglow.kuzuroshop.persistence.MemberDAO;
 
@@ -24,7 +23,7 @@ public class MemberServiceImpl implements MemberService {
 
     // 로그인
     @Override
-    public MemberVO signin(LoginVO vo) throws Exception {
+    public MemberVO signin(MemberVO vo) throws Exception {
         return dao.signin(vo);
     }
 
