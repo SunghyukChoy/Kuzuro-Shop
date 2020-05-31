@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 
 import my.likeaglow.kuzuroshop.domain.CategoryVO;
+import my.likeaglow.kuzuroshop.domain.GoodsVO;
 import my.likeaglow.kuzuroshop.persistence.AdminDAO;
 
 @Service
@@ -20,5 +21,12 @@ public class AdminServiceImpl implements AdminService {
     public List<CategoryVO> category() throws Exception {
 
         return dao.category();
+    }
+
+    // 상품등록
+    @Override
+    public void register(GoodsVO vo) throws Exception {
+
+        dao.register(vo);
     }
 }
