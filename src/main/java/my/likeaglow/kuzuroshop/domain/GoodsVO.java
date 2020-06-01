@@ -16,29 +16,29 @@ public class GoodsVO {
 //            PRIMARY KEY(goodsName)
 //            );
 
-    private int goodsNum;
-    private String goodsName;
+    private int gdsNum;
+    private String gdsName;
     private String cateCode;
-    private int goodsPrice;
-    private int goodsStock;
-    private String goodsDes;
-    private String goodsImg;
-    private Date goodsDate;
+    private int gdsPrice;
+    private int gdsStock;
+    private String gdsDes;
+    private String gdsImg;
+    private Date gdsDate;
 
-    public int getGoodsNum() {
-        return goodsNum;
+    public int getGdsNum() {
+        return gdsNum;
     }
 
-    public void setGoodsNum(int goodsNum) {
-        this.goodsNum = goodsNum;
+    public void setGdsNum(int gdsNum) {
+        this.gdsNum = gdsNum;
     }
 
-    public String getGoodsName() {
-        return goodsName;
+    public String getGdsName() {
+        return gdsName;
     }
 
-    public void setGoodsName(String goodsName) {
-        this.goodsName = goodsName;
+    public void setGdsName(String gdsName) {
+        this.gdsName = gdsName;
     }
 
     public String getCateCode() {
@@ -49,43 +49,44 @@ public class GoodsVO {
         this.cateCode = cateCode;
     }
 
-    public int getGoodsPrice() {
-        return goodsPrice;
+    public int getGdsPrice() {
+        return gdsPrice;
     }
 
-    public void setGoodsPrice(int goodsPrice) {
-        this.goodsPrice = goodsPrice;
+    public void setGdsPrice(int gdsPrice) {
+        this.gdsPrice = gdsPrice;
     }
 
-    public int getGoodsStock() {
-        return goodsStock;
+    public int getGdsStock() {
+        return gdsStock;
     }
 
-    public void setGoodsStock(int goodsStock) {
-        this.goodsStock = goodsStock;
+    public void setGdsStock(int gdsStock) {
+        this.gdsStock = gdsStock;
     }
 
-    public String getGoodsDes() {
-        return goodsDes;
+    public String getGdsDes() {
+        return gdsDes;
     }
 
-    public void setGoodsDes(String goodsDes) {
-        this.goodsDes = goodsDes;
+    public void setGdsDes(String gdsDes) {
+        this.gdsDes = gdsDes;
     }
 
-    public String getGoodsImg() {
-        return goodsImg;
+    public String getGdsImg() {
+        return gdsImg;
     }
 
-    public void setGoodsImg(String goodsImg) {
-        this.goodsImg = goodsImg;
+    public void setGdsImg(String gdsImg) {
+        this.gdsImg = gdsImg;
     }
 
-    public Date getGoodsDate() {
-        return goodsDate;
+    public Date getGdsDate() {
+        return gdsDate;
     }
 
-    public void setGoodsDate(Date goodsDate) {
-        this.goodsDate = goodsDate;
+    public void setGdsDate(Date gdsDate) {
+        this.gdsDate = gdsDate;
     }
+
 }
