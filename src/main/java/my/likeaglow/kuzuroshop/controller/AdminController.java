@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import my.likeaglow.kuzuroshop.domain.CategoryVO;
 import my.likeaglow.kuzuroshop.domain.GoodsVO;
+import my.likeaglow.kuzuroshop.domain.GoodsViewVO;
 import my.likeaglow.kuzuroshop.service.AdminService;
 import net.sf.json.JSONArray;
 
@@ -62,11 +63,44 @@ public class AdminController {
 
     // 상품 조회
     @RequestMapping(value = "/goods/view", method = RequestMethod.GET)
-    public void getGoodsview(@RequestParam("n") int gdsNum, Model model) throws Exception {
+    public void getGoodsView(@RequestParam("n") int gdsNum, Model model) throws Exception {
         logger.info("get goods view");
 
-        GoodsVO goods = adminService.goodsView(gdsNum);
+        GoodsViewVO goods = adminService.goodsView(gdsNum);
 
         model.addAttribute("goods", goods);
+    }
+
+    // 상품 수정
+    @RequestMapping(value = "/goods/modify", method = RequestMethod.GET)
+    public void getGoodsModify(@RequestParam("n") int gdsNum, Model model) throws Exception {
+        logger.info("get goods modify");
+
+        GoodsViewVO goods = adminService.goodsView(gdsNum);
+        model.addAttribute("goods", goods);
+
+        List<CategoryVO> category = null;
+        category = adminService.category();
+        model.addAttribute("category", JSONArray.fromObject(category));
+    }
+
+    // 상품 수정
+    @RequestMapping(value = "/goods/modify", method = RequestMethod.POST)
+    public String postGoodsModify(GoodsVO vo) throws Exception {
+        logger.info("post goods modify");
+
+        adminService.goodsModify(vo);
+
+        return "redirect:/admin/index";
+    }
+
+    // 상품 삭제
+    @RequestMapping(value = "/goods/delete", method = RequestMethod.POST)
+    public String postGoodsDelete(@RequestParam("n") int gdsNum) throws Exception {
+        logger.info("post goods delete");
+
+        adminService.goodsDelete(gdsNum);
+
+        return "redirect:/admin/index";
     }
 }
