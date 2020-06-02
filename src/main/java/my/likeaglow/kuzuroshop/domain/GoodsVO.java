@@ -25,6 +25,8 @@ public class GoodsVO {
     private String gdsImg;
     private Date gdsDate;
 
+    private String gdsThumbImg;
+
     public int getGdsNum() {
         return gdsNum;
     }
@@ -89,4 +91,11 @@ public class GoodsVO {
         this.gdsDate = gdsDate;
     }
 
+    public String getGdsThumbImg() {
+        return gdsThumbImg;
+    }
+
+    public void setGdsThumbImg(String gdsThumbImg) {
+        this.gdsThumbImg = gdsThumbImg;
+    }
 }

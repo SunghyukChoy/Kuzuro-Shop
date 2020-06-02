@@ -16,6 +16,8 @@ public class GoodsViewVO {
     private String cateCodeRef;
     private String cateName;
 
+    private String gdsThumbImg;
+
     public int getGdsNum() {
         return gdsNum;
     }
@@ -96,4 +98,11 @@ public class GoodsViewVO {
         this.cateName = cateName;
     }
 
+    public String getGdsThumbImg() {
+        return gdsThumbImg;
+    }
+
+    public void setGdsThumbImg(String gdsThumbImg) {
+        this.gdsThumbImg = gdsThumbImg;
+    }
 }

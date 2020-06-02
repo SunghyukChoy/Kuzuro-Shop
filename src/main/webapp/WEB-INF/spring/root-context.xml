@@ -36,5 +36,6 @@
 	<context:component-scan base-package="my.likeaglow.kuzuroshop.domain"></context:component-scan>
 	<context:component-scan base-package="my.likeaglow.kuzuroshop.persistence"></context:component-scan>
 	<context:component-scan base-package="my.likeaglow.kuzuroshop.service"></context:component-scan>
+	<context:component-scan base-package="my.likeaglow.kuzuroshop.utils"></context:component-scan>
 		
 </beans>

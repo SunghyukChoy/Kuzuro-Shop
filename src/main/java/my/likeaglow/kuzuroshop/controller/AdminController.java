@@ -1,7 +1,9 @@
 package my.likeaglow.kuzuroshop.controller;
 
+import java.io.File;
 import java.util.List;
 
+import javax.annotation.Resource;
 import javax.inject.Inject;
 
 import org.slf4j.Logger;
@@ -11,11 +13,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import my.likeaglow.kuzuroshop.domain.CategoryVO;
 import my.likeaglow.kuzuroshop.domain.GoodsVO;
 import my.likeaglow.kuzuroshop.domain.GoodsViewVO;
 import my.likeaglow.kuzuroshop.service.AdminService;
+import my.likeaglow.kuzuroshop.utils.UploadFileUtils;
 import net.sf.json.JSONArray;
 
 @Controller
@@ -26,6 +30,9 @@ public class AdminController {
 
     @Inject
     AdminService adminService;
+
+    @Resource(name = "uploadPath")
+    private String uploadPath;
 
     // 관리자 화면
     @RequestMapping(value = "/index", method = RequestMethod.GET)
@@ -45,7 +52,25 @@ public class AdminController {
 
     // 상품 등록
     @RequestMapping(value = "/goods/register", method = RequestMethod.POST)
-    public String postGoodsRegister(GoodsVO vo) throws Exception {
+    public String postGoodsRegister(GoodsVO vo, MultipartFile file) throws Exception {
+
+        String imgUploadPath = uploadPath + File.separator + "imgUpload";
+        String ymdPath = UploadFileUtils.calcPath(imgUploadPath);
+        String fileName = null;
+
+        if (file.getOriginalFilename() != null && file.getOriginalFilename() != "") {
+            fileName = UploadFileUtils.fileUpload(imgUploadPath, file.getOriginalFilename(), file.getBytes(), ymdPath);
+
+            vo.setGdsImg(File.separator + "imgUpload" + ymdPath + File.separator + fileName);
+            vo.setGdsThumbImg(
+                    File.separator + "imgUpload" + ymdPath + File.separator + "s" + File.separator + "s_" + fileName);
+        } else {
+            fileName = File.separator + "images" + File.separator + "none.png";
+
+            vo.setGdsImg(fileName);
+            vo.setGdsThumbImg(fileName);
+        }
+
         adminService.register(vo);
 
         return "redirect:/admin/index";

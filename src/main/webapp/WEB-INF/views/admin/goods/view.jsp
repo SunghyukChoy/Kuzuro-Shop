@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>KUZURO REGISTER</title>
+<title>KUZURO VIEW</title>
 
 <script src="/resources/jquery/jquery-3.3.1.min.js"></script>
 
@@ -128,6 +128,15 @@ textarea#gdsDes {
 	width: 400px;
 	height: 180px;
 }
+
+.oriImg {
+	width: 500px;
+	height: auto;
+}
+
+.thumbImg {
+	
+}
 </style>
 
 </head>
@@ -176,6 +185,15 @@ textarea#gdsDes {
 
 					<div class="inputArea">
 						<label for="gdsDes">상품소개</label> <span>${goods.gdsDes}</span>
+					</div>
+
+					<div class="inputArea">
+						<label for="gdsImg">이미지</label>
+						<p>원본 이미지</p>
+						<img src="${goods.gdsImg }" class="oriImg" />
+
+						<p>썸네일</p>
+						<img src="${goods.gdsThumbImg }" class="thumbImg"/>
 					</div>
 
 					<div class="inputArea">

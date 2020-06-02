@@ -19,10 +19,10 @@
 	<insert id="register">
 		insert into tbl_goods (gdsNum, gdsName, cateCode,
 		gdsPrice, gdsStock,
-		gdsDes)
+		gdsDes, gdsImg, gdsThumbImg)
 		values (tbl_goods_seq.nextval, #{gdsName},
 		#{cateCode}, #{gdsPrice},
-		#{gdsStock}, #{gdsDes})
+		#{gdsStock}, #{gdsDes}, #{gdsImg}, #{gdsThumbImg})
 	</insert>
 
 	<!-- 상품 목록 -->
@@ -44,7 +44,7 @@
 		resultType="my.likeaglow.kuzuroshop.domain.GoodsViewVO">
 		select g.gdsNum, g.gdsName, g.cateCode, c.cateCodeRef,
 		c.cateName, gdsPrice,
-		gdsStock, gdsDes, gdsImg, gdsDate
+		gdsStock, gdsDes, gdsImg, gdsDate, g.gdsImg, g.gdsThumbImg
 		from tbl_goods g
 		inner join goods_category c
 		on g.cateCode = c.cateCode
