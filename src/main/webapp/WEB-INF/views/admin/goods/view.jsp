@@ -134,8 +134,7 @@ textarea#gdsDes {
 	height: auto;
 }
 
-.thumbImg {
-	
+.thumbImg {	
 }
 </style>
 
@@ -159,7 +158,7 @@ textarea#gdsDes {
 				<%@ include file="../include/aside.jsp"%>
 			</aside>
 			<div id="container_box">
-				<h2>상품 등록</h2>
+				<h2>상품 조회</h2>
 
 				<form role="form" method="post" autocomplete="off">
 
