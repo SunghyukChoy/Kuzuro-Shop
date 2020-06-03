@@ -326,5 +326,21 @@ textarea#gdsDes {
 
 						});
 	</script>
+
+	<script>
+		var regExp = /[^0-9]/gi; // 숫자만 허용하는 정규표현식
+
+		$("#gdsPrice").keyup(function() { // gdsPrice를 입력할 때마다 numCheck() 함수 호출
+			numCheck($(this)); //$(this) : 현재 선택자. $(#gdsPrice)를 의미
+		});
+		$("#gdsStock").keyup(function() { // gdsStock를 입력할 때마다 numCheck() 함수 호출
+			numCheck($(this)); //$(this) : 현재 선택자. $(#gdsStock)를 의미
+		});
+
+		function numCheck(selector) { // numCheck 함수는 현재 선택된 선택자를 selector에 저장한 뒤 selector에 입력된 값을 정규표현식에 맞게 저장
+			var tempVal = selector.val();
+			selector.val(tempVal.replace(regExp, "")); // 상품 가격과 상품 수량에 숫자가 아닌 다른 문자를 입력하면 공백으로 바뀜.
+		}
+	</script>
 </body>
 </html>
