@@ -13,6 +13,8 @@
 	href="/resources/bootstrap/bootstrap-theme.min.css">
 <script src="/resources/bootstrap/bootstrap.min.js"></script>
 
+<script src="/resources/ckeditor/ckeditor.js"></script>
+
 <style>
 body {
 	font-family: '맑은 고딕', verdana;
@@ -156,7 +158,8 @@ textarea#gdsDes {
 			<div id="container_box">
 				<h2>상품 수정</h2>
 
-				<form role="form" method="post" autocomplete="off" enctype="multipart/form-data">
+				<form role="form" method="post" autocomplete="off"
+					enctype="multipart/form-data">
 
 					<input type="hidden" name="gdsNum" value="${ goods.gdsNum }" />
 
@@ -170,45 +173,65 @@ textarea#gdsDes {
 
 					<div class="inputArea">
 						<label for="gdsName">상품명</label> <input type="text" id="gdsName"
-							name="gdsName" />
+							name="gdsName" value="${goods.gdsName }" />
 					</div>
 
 					<div class="inputArea">
 						<label for="gdsPrice">상품가격</label> <input type="text"
-							id="gdsPrice" name="gdsPrice" />
+							id="gdsPrice" name="gdsPrice" value="${ goods.gdsPrice }" />
 					</div>
 
 					<div class="inputArea">
 						<label for="gdsStock">상품수량</label> <input type="text"
-							id="gdsStock" name="gdsStock" />
+							id="gdsStock" name="gdsStock" value="${ goods.gdsStock }" />
 					</div>
 
 					<div class="inputArea">
 						<label for="gdsDes">상품소개</label>
-						<textarea rows="5" cols="50" id="gdsDes" name="gdsDes"></textarea>
-					</div>
-					
-					<div class="inputArea">
-						<label for="gdsImg">이미지</label>
-						<input type="file" id="gdsImg" name="file"/>
-						<div class="select_img">
-							<img src="${ goods.gdsImg }"/>
-							<input type="hidden" name="gdsImg" value="${ goods.gdsImg }"/>
-							<input type="hidden" name="gdsThumbImg" value="${ goods.gdsThumbImg }"/>
-						</div>
-						
+						<textarea rows="5" cols="50" id="gdsDes" name="gdsDes">${goods.gdsDes }</textarea>
+
 						<script>
-							$("#gdsImg").change(function(){
-								if(this.files && this.files[0]) {
-									var reader = new FileReader;
-									reader.onload = function(data) {
-										$(".select_img img").attr("src", data.target.result).width(500);
-									}
-									reader.readAsDataURL(this.files[0]);
-								}
-							});
+							var ckeditor_config = {
+								resize_enaleb : false,
+								enterMode : CKEDITOR.ENTER_BR,
+								shiftEnterMode : CKEDITOR.ENTER_P,
+								filebrowserUploadUrl : "/admin/goods/ckUpload"
+							};
+
+							CKEDITOR.replace("gdsDes", ckeditor_config);
 						</script>
-						<%= request.getRealPath("/") %>
+
+					</div>
+
+					<div class="inputArea">
+						<label for="gdsImg">이미지</label> <input type="file" id="gdsImg"
+							name="file" />
+						<div class="select_img">
+							<img src="${ goods.gdsImg }" /> <input type="hidden"
+								name="gdsImg" value="${ goods.gdsImg }" /> <input type="hidden"
+								name="gdsThumbImg" value="${ goods.gdsThumbImg }" />
+						</div>
+
+						<script>
+							$("#gdsImg")
+									.change(
+											function() {
+												if (this.files && this.files[0]) {
+													var reader = new FileReader;
+													reader.onload = function(
+															data) {
+														$(".select_img img")
+																.attr(
+																		"src",
+																		data.target.result)
+																.width(500);
+													}
+													reader
+															.readAsDataURL(this.files[0]);
+												}
+											});
+						</script>
+						<%=request.getRealPath("/")%>
 					</div>
 
 					<div class="inputArea">
