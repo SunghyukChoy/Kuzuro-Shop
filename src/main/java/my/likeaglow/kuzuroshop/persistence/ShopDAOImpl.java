@@ -37,4 +37,11 @@ public class ShopDAOImpl implements ShopDAO {
 
         return sql.selectList(namespace + ".list_2", cateCode);
     }
+
+    @Override
+    public GoodsViewVO goodsView(int gdsNum) throws Exception {
+
+        return sql.selectOne("my.likeaglow.kuzuroshop.mappers.adminMapper" + ".goodsView", gdsNum);
+        // adminMapper를 사용하므로 직접 입력해 주었음.
+    }
 }
