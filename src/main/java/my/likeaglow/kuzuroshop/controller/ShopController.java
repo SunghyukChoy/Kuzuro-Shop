@@ -90,4 +90,25 @@ public class ShopController {
 
         return reply;
     }
+
+    // 상품 소감(댓글) 삭제
+    @ResponseBody
+    @RequestMapping(value = "/view/deleteReply", method = RequestMethod.POST)
+    public int getReplyList(ReplyVO reply, HttpSession session) throws Exception {
+        logger.info("post delete reply");
+
+        int result = 0;
+
+        MemberVO member = (MemberVO) session.getAttribute("member"); // 현재 세션을 가져와 변수 member에 저장
+        String userId = service.idCheck(reply.getRepNum()); // 아이디 체크 쿼리의 결과를 가져와 변수 userId에 저장
+
+        if (member.getUserId().equals(userId)) { // 변수 member에서 userId를 가져오고 위의 userId와 비교
+            reply.setUserId(member.getUserId());
+            service.deleteReply(reply); // 삭제 실행
+
+            result = 1; // 아이디 삭제 후 result에 1 저장
+        }
+
+        return result;
+    }
 }

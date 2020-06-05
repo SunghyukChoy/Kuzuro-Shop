@@ -28,7 +28,12 @@
 											 + "<span class='userName'>" + this.userName + "</span>"
 											 + "<span class='date'>" + regDate + "</span>"
 											 + "</div>"
-											 + "<div class='replyContent'>" + this.repCon + "</div>"
+											 + "<div class='replyContent'>" + this.repCon + "</div>"											 
+											 
+											 + "<div class='replyFooter'>"
+											 + "<button type='button' class='modify' data-repNum='" + this.repNum + "'>M</button>"
+											 + "<button type='button' class='delete' data-repNum='" + this.repNum + "'>D</button>"
+											 + "</div>"
 											 + "</li>"
 									});
 									
@@ -310,6 +315,13 @@ section.replyList div.replyContent {
 	padding: 10px;
 	margin: 20px 0;
 }
+
+section.replyList div.replyFooter button {
+	font-size: 14px;
+	border: 1px solid #999;
+	background: none;
+	margin-right: 10px;
+}
 </style>
 </head>
 <body>
@@ -459,6 +471,35 @@ section.replyList div.replyContent {
 							</ol>
 							<script>
 								replyList();
+							</script>
+
+							<script>
+								$(document).on("click", ".delete", function(){
+									
+									var deleteConfirm = confirm("정말로 삭제하시겠습니까?");
+									
+									if(deleteConfirm) {
+										
+										var data = { repNum : $(this).attr("data-repNum")};
+										
+										$.ajax({
+											url : "/shop/view/deleteReply",
+											type : "post",
+											data : data,
+											success : function(result){
+												if(result == 1) {	// 컨트롤러에서 받아온 값.
+													replyList();	// 삭제 후 목록을 다시 불러옴
+												} else {	// 받오온 값이 0이면 알림창 출력
+													alert("작성자 본인만 삭제할 수 있습니다.")
+												}
+											},
+											
+											error : function(){	// 비로그인 시 모든 세션이 null이므로 에러 발생
+												alert("로그인 하셔야합니다.")
+											}
+										});
+									}
+								});								
 							</script>
 						</section>
 
