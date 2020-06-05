@@ -9,6 +9,8 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import my.likeaglow.kuzuroshop.domain.GoodsViewVO;
+import my.likeaglow.kuzuroshop.domain.ReplyListVO;
+import my.likeaglow.kuzuroshop.domain.ReplyVO;
 
 @Repository
 public class ShopDAOImpl implements ShopDAO {
@@ -38,10 +40,25 @@ public class ShopDAOImpl implements ShopDAO {
         return sql.selectList(namespace + ".list_2", cateCode);
     }
 
+    // 상품 조회
     @Override
     public GoodsViewVO goodsView(int gdsNum) throws Exception {
 
         return sql.selectOne("my.likeaglow.kuzuroshop.mappers.adminMapper" + ".goodsView", gdsNum);
         // adminMapper를 사용하므로 직접 입력해 주었음.
+    }
+
+    // 상품 소감(댓글) 작성
+    @Override
+    public void registReply(ReplyVO reply) throws Exception {
+
+        sql.insert(namespace + ".registReply", reply);
+    }
+
+    // 상품 소감(댓글) 리스트
+    @Override
+    public List<ReplyListVO> replyList(int gdsNum) throws Exception {
+
+        return sql.selectList(namespace + ".replyList", gdsNum);
     }
 }

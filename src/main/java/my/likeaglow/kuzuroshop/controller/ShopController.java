@@ -3,6 +3,7 @@ package my.likeaglow.kuzuroshop.controller;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +14,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import my.likeaglow.kuzuroshop.domain.GoodsViewVO;
+import my.likeaglow.kuzuroshop.domain.MemberVO;
+import my.likeaglow.kuzuroshop.domain.ReplyListVO;
+import my.likeaglow.kuzuroshop.domain.ReplyVO;
 import my.likeaglow.kuzuroshop.service.ShopService;
 
 @Controller
@@ -43,5 +47,22 @@ public class ShopController {
 
         GoodsViewVO view = service.goodsView(gdsNum);
         model.addAttribute("view", view);
+
+        List<ReplyListVO> reply = service.replyList(gdsNum);
+        model.addAttribute("reply", reply);
+    }
+
+    // 상품 조회 - 소감(댓글) 작성
+    @RequestMapping(value = "/view", method = RequestMethod.POST)
+    public String registReply(ReplyVO reply, HttpSession session) throws Exception {
+        // HttpSession을 이용해 member 세션에 있는 userId를 가져옴.
+        logger.info("regist reply");
+
+        MemberVO member = (MemberVO) session.getAttribute("member");
+        reply.setUserId(member.getUserId());
+
+        service.registReply(reply);
+
+        return "redirect:/shop/view?n=" + reply.getGdsNum();
     }
 }
