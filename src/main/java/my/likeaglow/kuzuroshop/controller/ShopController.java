@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import my.likeaglow.kuzuroshop.domain.GoodsViewVO;
 import my.likeaglow.kuzuroshop.domain.MemberVO;
@@ -48,21 +49,45 @@ public class ShopController {
         GoodsViewVO view = service.goodsView(gdsNum);
         model.addAttribute("view", view);
 
-        List<ReplyListVO> reply = service.replyList(gdsNum);
-        model.addAttribute("reply", reply);
+//        List<ReplyListVO> reply = service.replyList(gdsNum);
+//        model.addAttribute("reply", reply);
     }
 
-    // 상품 조회 - 소감(댓글) 작성
-    @RequestMapping(value = "/view", method = RequestMethod.POST)
-    public String registReply(ReplyVO reply, HttpSession session) throws Exception {
-        // HttpSession을 이용해 member 세션에 있는 userId를 가져옴.
-        logger.info("regist reply");
+    /*
+     * // 상품 조회 - 소감(댓글) 작성
+     * 
+     * @RequestMapping(value = "/view", method = RequestMethod.POST) public String
+     * registReply(ReplyVO reply, HttpSession session) throws Exception { //
+     * HttpSession을 이용해 member 세션에 있는 userId를 가져옴. logger.info("regist reply");
+     * 
+     * MemberVO member = (MemberVO) session.getAttribute("member");
+     * reply.setUserId(member.getUserId());
+     * 
+     * service.registReply(reply);
+     * 
+     * return "redirect:/shop/view?n=" + reply.getGdsNum(); }
+     */
+
+    // 상품 소감(댓글) 작성
+    @ResponseBody
+    @RequestMapping(value = "/view/registReply", method = RequestMethod.POST)
+    public void registReply(ReplyVO reply, HttpSession session) throws Exception {
+        logger.info("regist post");
 
         MemberVO member = (MemberVO) session.getAttribute("member");
         reply.setUserId(member.getUserId());
 
         service.registReply(reply);
+    }
 
-        return "redirect:/shop/view?n=" + reply.getGdsNum();
+    // 상품 소감(댓글) 목록
+    @ResponseBody
+    @RequestMapping(value = "/view/replyList", method = RequestMethod.GET)
+    public List<ReplyListVO> getReplyList(@RequestParam("n") int gdsNum) throws Exception {
+        logger.info("get reply list");
+
+        List<ReplyListVO> reply = service.replyList(gdsNum);
+
+        return reply;
     }
 }

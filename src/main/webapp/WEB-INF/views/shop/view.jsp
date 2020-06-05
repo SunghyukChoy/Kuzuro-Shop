@@ -8,6 +8,37 @@
 
 <script src="/resources/jquery/jquery-3.3.1.min.js"></script>
 
+<script>
+							
+							function replyList() {	// 함수로 묶음.	head 태그 내부로 옮김.						
+							
+								var gdsNum = ${view.gdsNum};
+								/* $.getJSON : 비동기식으로 제이슨 데이터를 가져오는 메서드 */
+								$.getJSON("/shop/view/replyList" + "?n=" + gdsNum, function(data){
+									var str = "";
+									
+									$(data).each(function(){
+										console.log(data);
+										
+										var regDate = new Date(this.regDate);
+										regDate = regDate.toLocaleDateString("ko-US")
+										
+										str += "<li data-gdsNum='" + this.gdsNum + "'>"
+											 + "<div class='userInfo'>"
+											 + "<span class='userName'>" + this.userName + "</span>"
+											 + "<span class='date'>" + regDate + "</span>"
+											 + "</div>"
+											 + "<div class='replyContent'>" + this.repCon + "</div>"
+											 + "</li>"
+									});
+									
+									$("section.replyList ol").html(str);
+								});		
+								// http:///shop/view/replyList" + "?n=" + gdsNum 주소로 컨트롤러에 접속하여 데이터를 가져오고,
+								// 그 데이터를 이용해 HTML코드를 조립하여 <ol> 태그에 추가하는 방식
+							}
+							</script>
+
 <style>
 body {
 	margin: 0;
@@ -376,14 +407,38 @@ section.replyList div.replyContent {
 							<section class="replyForm">
 								<form role="form" method="POST" autocomplete="off">
 
-									<input type="hidden" name="gdsNum" value="${ view.gdsNum }">
+									<input type="hidden" name="gdsNum" id="gdsNum"
+										value="${ view.gdsNum }">
 									<!-- 상품 번호를 컨트롤러에 전달 -->
 									<div class="inputArea">
 										<textarea name="repCon" id="repCon"></textarea>
 									</div>
 
 									<div class="inputArea">
-										<button type="submit" id="reply_btn">소감 남기기</button>
+										<button type="button" id="reply_btn">소감 남기기</button>
+
+										<script>
+											$("#reply_btn").click(function(){
+												var formObj = $(".replyForm form[role='form']");
+												var gdsNum = $("#gdsNum").val();
+												var repCon = $("#repCon").val();
+												
+												var data = {
+														gdsNum : gdsNum,	// 키 : 값
+														repCon : repCon
+												};
+												
+												$.ajax({
+													url : "/shop/view/registReply",	// 데이터가 전송될 주소
+													type : "post",	// 타입
+													data : data,	// 전송될 데이터
+													success : function(){	// 데이터 전송 성공 시 실행할 함수
+														replyList();	// 소감 작성 완료 시 소감 목록 다시 출력
+														$("#repCon").val(""); // 소감 작성 후 textArea에 남는 소감 지우기
+													}
+												});
+											});
+										</script>
 									</div>
 								</form>
 							</section>
@@ -391,7 +446,7 @@ section.replyList div.replyContent {
 
 						<section class="replyList">
 							<ol>
-								<c:forEach items="${reply }" var="reply">
+								<%-- <c:forEach items="${reply }" var="reply">
 									<li>
 										<div class="userInfo">
 											<span class="userName">${reply.userName }</span> <span
@@ -400,8 +455,11 @@ section.replyList div.replyContent {
 										</div>
 										<div class="replyContent">${ reply.repCon }</div>
 									</li>
-								</c:forEach>
+								</c:forEach> --%>
 							</ol>
+							<script>
+								replyList();
+							</script>
 						</section>
 
 					</div>
