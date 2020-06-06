@@ -23,17 +23,23 @@
 										var regDate = new Date(this.regDate);
 										regDate = regDate.toLocaleDateString("ko-US")
 										
-										str += "<li data-gdsNum='" + this.gdsNum + "'>"
+										str += "<li data-repNum='" + this.repNum + "'>"	// "<li data-gdsNum='" + this.gdsNum + "'>"
 											 + "<div class='userInfo'>"
 											 + "<span class='userName'>" + this.userName + "</span>"
 											 + "<span class='date'>" + regDate + "</span>"
 											 + "</div>"
-											 + "<div class='replyContent'>" + this.repCon + "</div>"											 
+											 + "<div class='replyContent'>" + this.repCon + "</div>"
+											 
+											 + "<c:if test='${member != null}'>"	
+											 // member 세션에 값이 있다면(로그인 상태라면) 출력하고 비로그인이라면 버튼들을 출력하지 않는 조건문
 											 
 											 + "<div class='replyFooter'>"
 											 + "<button type='button' class='modify' data-repNum='" + this.repNum + "'>M</button>"
 											 + "<button type='button' class='delete' data-repNum='" + this.repNum + "'>D</button>"
 											 + "</div>"
+											 
+											 + "</c:if>"
+											 
 											 + "</li>"
 									});
 									
@@ -323,6 +329,54 @@ section.replyList div.replyFooter button {
 	margin-right: 10px;
 }
 </style>
+<style>
+div.replyModal {
+	position: relative;
+	z-index: 1;	/* 모달을 화면 제일 위로 나오게 함. z축 : 1 */
+	display: none;	/* view 페이지에서 모달을 표시 안 함. */
+}
+
+div.modalBackground {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.8);
+	z-index: -1;
+}
+
+div.modalContent {
+	position: fixed;
+	top: 20%;
+	left: calc(50% - 250px);
+	width: 500px;
+	height: 250px;
+	padding: 20px 10px;
+	background: #fff;
+	border: 2px solid #666;
+}
+
+div.modalContent textarea {
+	font-size: 16px;
+	font-family: '맑은 고딕', verdana;
+	padding: 10px;
+	width: 500px;
+	height: 200px;
+}
+
+div.modalContent button {
+	font-size: 20px;
+	padding: 5px 10px;
+	margin: 10px 0;
+	background: #fff;
+	border: 1px solid #ccc;
+}
+
+div.modalContent button.modal_cancel {
+	margin-left: 20px;
+}
+</style>
 </head>
 <body>
 	<div id="root">
@@ -474,6 +528,18 @@ section.replyList div.replyFooter button {
 							</script>
 
 							<script>
+								
+								$(document).on("click", ".modify", function(){	// 수정(M) 버튼 클릭 시 
+									// $(".replyModal").attr("style", "display:block");	// 모달 보임
+									$(".replyModal").fadeIn(200);	// 제이쿼리에 내장된 페이드 기능
+									
+									var repNum = $(this).attr("data-repNum");
+									var repCon = $(this).parent().parent().children(".replyContent").text();
+									
+									$(".modal_repCon").val(repCon);
+									$(".modal_modify_btn").attr("data-repNum", repNum);
+								})
+							
 								$(document).on("click", ".delete", function(){
 									
 									var deleteConfirm = confirm("정말로 삭제하시겠습니까?");
@@ -518,5 +584,65 @@ section.replyList div.replyFooter button {
 			</div>
 		</footer>
 	</div>
+
+	<div class="replyModal">
+
+		<div class="modalContent">
+
+			<div>
+				<textarea class="modal_repCon" name="reply_repCon"></textarea>
+			</div>
+
+			<div>
+				<button type="button" class="modal_modify_btn">수정</button>
+				<button type="button" class="modal_cancel">취소</button>
+			</div>
+
+		</div>
+
+		<div class="modalBackground"></div>
+
+	</div>
+	
+	<script>
+		$(".modal_cancel").click(function(){	// 모달에서 취소 버튼 클릭 시 모달 표시 안 함
+			// $(".replyModal").attr("style", "display:none");
+			$(".replyModal").fadeOut(200);
+		});
+	</script>
+		
+	<script>
+		$(".modal_modify_btn").click(function(){
+			var modifyConfirm = confirm("정말로 수정하시겠습니까?");
+			
+			if(modifyConfirm) {
+				var data = {
+						repNum : $(this).attr("data-repNum"),
+						repCon : $(".modal_repCon").val()
+				};	// ReplyVO 형태로 데이터 생성
+				
+				$.ajax({
+					url : "/shop/view/modifyReply",
+					type : "post",
+					data : data,
+					success : function(result) {
+						
+						// result의 값에 따라 동작
+						if(result == 1) {
+							replyList();	// 리스트 새로고침
+							$(".replyModal").fadeOut(200);
+						} else {
+							alert("작성자 본인만 수정할 수 있습니다.")	// 본인이 아닌 경우
+						}
+					},
+					
+					error : function(){
+						// 로그인 하지 않아서 에러가 발생한 경우
+						alert("로그인 하셔야합니다.")
+					}
+				});
+			}
+		});		
+	</script>
 </body>
 </html>
