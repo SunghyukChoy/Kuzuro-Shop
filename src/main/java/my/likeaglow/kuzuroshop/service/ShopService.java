@@ -2,6 +2,8 @@ package my.likeaglow.kuzuroshop.service;
 
 import java.util.List;
 
+import my.likeaglow.kuzuroshop.domain.CartListVO;
+import my.likeaglow.kuzuroshop.domain.CartVO;
 import my.likeaglow.kuzuroshop.domain.GoodsViewVO;
 import my.likeaglow.kuzuroshop.domain.ReplyListVO;
 import my.likeaglow.kuzuroshop.domain.ReplyVO;
@@ -28,4 +30,10 @@ public interface ShopService {
 
     // 상품 소감(댓글) 수정
     public void modifyReply(ReplyVO reply) throws Exception;
+
+    // 카트 담기
+    public void addCart(CartVO cart) throws Exception;
+
+    // 카트 리스트
+    public List<CartListVO> cartList(String userId) throws Exception;
 }

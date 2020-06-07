@@ -332,8 +332,8 @@ section.replyList div.replyFooter button {
 <style>
 div.replyModal {
 	position: relative;
-	z-index: 1;	/* 모달을 화면 제일 위로 나오게 함. z축 : 1 */
-	display: none;	/* view 페이지에서 모달을 표시 안 함. */
+	z-index: 1; /* 모달을 화면 제일 위로 나오게 함. z축 : 1 */
+	display: none; /* view 페이지에서 모달을 표시 안 함. */
 }
 
 div.modalBackground {
@@ -454,7 +454,38 @@ div.modalContent button.modal_cancel {
 								</script>
 							</p>
 							<p class="addToCart">
-								<button type="button">카트에 담기</button>
+								<button type="button" class="addCart_btn">카트에 담기</button>
+
+								<script>
+									$(".addCart_btn").click(function(){
+										var gdsNum = $("#gdsNum").val();
+										var cartStock = $(".numBox").val();
+										
+										var data = {
+												gdsNum : gdsNum,
+												cartStock : cartStock
+										};
+										
+										$.ajax({
+											url : "/shop/view/addCart",
+											type : "post",
+											data : data,
+											success : function(result){
+												
+												if(result == 1) {
+													alert("카트 담기 성공");
+													$(".numBox").val("1");	
+												} else {
+													alert("회원만 이용할 수 있습니다.")
+													$(".numBox").val("1");													
+												}												
+											},
+											error : function(){
+												aleert("카트 담기 실패");
+											}
+										});
+									});
+								</script>
 							</p>
 						</div>
 
@@ -603,14 +634,14 @@ div.modalContent button.modal_cancel {
 		<div class="modalBackground"></div>
 
 	</div>
-	
+
 	<script>
 		$(".modal_cancel").click(function(){	// 모달에서 취소 버튼 클릭 시 모달 표시 안 함
 			// $(".replyModal").attr("style", "display:none");
 			$(".replyModal").fadeOut(200);
 		});
 	</script>
-		
+
 	<script>
 		$(".modal_modify_btn").click(function(){
 			var modifyConfirm = confirm("정말로 수정하시겠습니까?");

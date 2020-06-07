@@ -169,7 +169,7 @@ footer#footer div#footer_box {
 }
 </style>
 <style>
-section#content ul li {
+/* section#content ul li {
 	display: inline-block;
 	margin: 10px;
 }
@@ -186,6 +186,61 @@ section#content div.goodsName {
 
 section#content div.goodsName a {
 	color: #000;
+} */
+</style>
+<style>
+/*
+ section#content ul li { display:inline-block; margin:10px; }
+ section#content div.goodsThumb img { width:200px; height:200px; }
+ section#content div.goodsName { padding:10px 0; text-align:center; }
+ section#content div.goodsName a { color:#000; }
+ */
+section#content ul li {
+	margin: 10px 0;
+}
+
+section#content ul li img {
+	width: 250px;
+	height: 250px;
+}
+
+section#content ul li::after {
+	content: "";
+	display: block;
+	clear: both;
+}
+
+section#content div.thumb {
+	float: left;
+	width: 250px;
+}
+
+section#content div.gdsInfo {
+	float: right;
+	width: calc(100% - 270px);
+}
+
+section#content div.gdsInfo {
+	font-size: 20px;
+	line-height: 2;
+}
+
+section#content div.gdsInfo span {
+	display: inline-block;
+	width: 100px;
+	font-weight: bold;
+	margin-right: 10px;
+}
+
+section#content div.gdsInfo .delete {
+	text-align: right;
+}
+
+section#content div.gdsInfo .delete button {
+	font-size: 22px;
+	padding: 5px 10px;
+	border: 1px solid #eee;
+	background: #eee;
 }
 </style>
 </head>
@@ -208,13 +263,27 @@ section#content div.goodsName a {
 				<section id="content">
 
 					<ul>
-						<c:forEach items="${ list }" var="item">
+						<c:forEach items="${ cartList }" var="cartList">
 							<li>
-								<div class="goodsThumb">
-									<img src="${ item.gdsThumbImg }">
+								<div class="thumb">
+									<img src="${ cartList.gdsThumbImg }">
 								</div>
-								<div class="goodsName">
-									<a href="/shop/view?n=${ item.gdsNum }">${ item.gdsName }</a>
+								<div class="gdsInfo">
+									<p>
+										<span>상품명 : </span>${cartList.gdsName }<br /> <span>개당
+											가격 :</span>
+										<fmt:formatNumber pattern="###,###,###"
+											value="${cartList.gdsPrice }" />
+										원<br /> <span>구입 수량 : </span>${cartList.cartStock } 개<br /> <span>최종
+											가격 : </span>
+										<fmt:formatNumber pattern="###,###,###"
+											value="${cartList.gdsPrice * cartList.cartStock }" />
+										원
+									</p>
+
+									<div class="delete">
+										<button type="button" class="delete_btn">삭제</button>
+									</div>
 								</div>
 							</li>
 						</c:forEach>
