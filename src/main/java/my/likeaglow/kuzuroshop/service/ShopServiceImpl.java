@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import my.likeaglow.kuzuroshop.domain.CartListVO;
 import my.likeaglow.kuzuroshop.domain.CartVO;
 import my.likeaglow.kuzuroshop.domain.GoodsViewVO;
+import my.likeaglow.kuzuroshop.domain.OrderDetailVO;
+import my.likeaglow.kuzuroshop.domain.OrderVO;
 import my.likeaglow.kuzuroshop.domain.ReplyListVO;
 import my.likeaglow.kuzuroshop.domain.ReplyVO;
 import my.likeaglow.kuzuroshop.persistence.ShopDAO;
@@ -97,5 +99,26 @@ public class ShopServiceImpl implements ShopService {
     public void deleteCart(CartVO cart) throws Exception {
 
         dao.deleteCart(cart);
+    }
+
+    // 주문 정보
+    @Override
+    public void orderInfo(OrderVO order) throws Exception {
+
+        dao.orderInfo(order);
+    }
+
+    // 주문 상세 정보
+    @Override
+    public void orderInfo_Details(OrderDetailVO orderDetail) throws Exception {
+
+        dao.orderInfo_Details(orderDetail);
+    }
+
+    // 카트 비우기
+    @Override
+    public void cartAllDelete(String userId) throws Exception {
+
+        dao.cartAllDelete(userId);
     }
 }

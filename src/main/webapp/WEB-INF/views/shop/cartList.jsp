@@ -284,6 +284,75 @@ section#content div.gdsInfo .delete button {
 	height: 16px;
 }
 </style>
+<style>
+.listResult {
+	padding: 20px;
+	background: #eee;
+}
+
+.listResult .sum {
+	float: left;
+	width: 45%;
+	font-size: 22px;
+}
+
+.listResult .orderOpen {
+	float: right;
+	width: 45%;
+	text-align: right;
+}
+
+.listResult .orderOpen button {
+	font-size: 18px;
+	padding: 5px 10px;
+	border: 1px solid #999;
+	background: #fff;
+}
+
+.listResult::after {
+	content: "";
+	display: block;
+	clear: both;
+}
+</style>
+<style>
+.orderInfo {
+	border: 5px solid #eee;
+	padding: 20px;
+	display: none;
+}
+
+.orderInfo .inputArea {
+	margin: 10px 0;
+}
+
+.orderInfo .inputArea label {
+	display: inline-block;
+	width: 120px;
+	margin-right: 10px;
+}
+
+.orderInfo .inputArea input {
+	font-size: 14px;
+	padding: 5px;
+}
+
+#userAddr2, #userAddr3 {
+	width: 250px;
+}
+
+.orderInfo .inputArea:last-child {
+	margin-top: 30px;
+}
+
+.orderInfo .inputArea button {
+	font-size: 20px;
+	border: 2px solid #ccc;
+	padding: 5px 10px;
+	background: #fff;
+	margin-right: 20px;
+}
+</style>
 </head>
 <body>
 	<div id="root">
@@ -327,36 +396,52 @@ section#content div.gdsInfo .delete button {
 
 							<div class="delBtn">
 								<button type="button" class="selectDelete_btn">선택 삭제</button>
-								
+
 								<script>
-									$(".selectDelete_btn").click(function(){
-										var confirm_val = confirm("정말로 삭제하시겠습니까?");
-											
-										if(confirm_val) {
-											var checkArr = new Array();
-											
-											$("input[class='chBox']:checked").each(function(){
-												checkArr.push($(this).attr("data-cartNum"));
-											});
-											
-											$.ajax({
-												url : "/shop/deleteCart",
-												type : "post",
-												data : { chbox : checkArr },
-												success : function(result){
-													
-													if(result == 1) {
-														location.href = "/shop/cartList";
-													} else {
-														alert("삭제 실패");
-													}
-												}												
-											});
-										}
-									});
+									$(".selectDelete_btn")
+											.click(
+													function() {
+														var confirm_val = confirm("정말로 삭제하시겠습니까?");
+
+														if (confirm_val) {
+															var checkArr = new Array();
+
+															$(
+																	"input[class='chBox']:checked")
+																	.each(
+																			function() {
+																				checkArr
+																						.push($(
+																								this)
+																								.attr(
+																										"data-cartNum"));
+																			});
+
+															$
+																	.ajax({
+																		url : "/shop/deleteCart",
+																		type : "post",
+																		data : {
+																			chbox : checkArr
+																		},
+																		success : function(
+																				result) {
+
+																			if (result == 1) {
+																				location.href = "/shop/cartList";
+																			} else {
+																				alert("삭제 실패");
+																			}
+																		}
+																	});
+														}
+													});
 								</script>
 							</div>
 						</lI>
+
+						<c:set var="sum" value="0" />
+
 						<c:forEach items="${ cartList }" var="cartList">
 							<li>
 								<div class="checkBox">
@@ -390,37 +475,117 @@ section#content div.gdsInfo .delete button {
 
 									<div class="delete">
 										<button type="button" class="delete_${cartList.cartNum}_btn"
-											data-cartNum="${cartList.cartNum}">삭제</button>	<!-- 클래스명에 공백 안 됨. -->
+											data-cartNum="${cartList.cartNum}">삭제</button>
+										<!-- 클래스명에 공백 안 됨. -->
 										<script>
-									$(".delete_${cartList.cartNum}_btn").click(function(){
-										var confirm_val = confirm("정말로 삭제하시겠습니까?");
-											
-										if(confirm_val) {
-											var checkArr = new Array();
-											
-											checkArr.push($(this).attr("data-cartNum"));
-											
-											$.ajax({
-												url : "/shop/deleteCart",
-												type : "post",
-												data : { chbox : checkArr },
-												success : function(result){
-													
-													if(result == 1) {
-														location.href = "/shop/cartList";
-													} else {
-														alert("삭제 실패");
-													}
-												}												
-											});
-										}
-									});
-								</script>						
+											$(".delete_${cartList.cartNum}_btn")
+													.click(
+															function() {
+																var confirm_val = confirm("정말로 삭제하시겠습니까?");
+
+																if (confirm_val) {
+																	var checkArr = new Array();
+
+																	checkArr
+																			.push($(
+																					this)
+																					.attr(
+																							"data-cartNum"));
+
+																	$
+																			.ajax({
+																				url : "/shop/deleteCart",
+																				type : "post",
+																				data : {
+																					chbox : checkArr
+																				},
+																				success : function(
+																						result) {
+
+																					if (result == 1) {
+																						location.href = "/shop/cartList";
+																					} else {
+																						alert("삭제 실패");
+																					}
+																				}
+																			});
+																}
+															});
+										</script>
 									</div>
 								</div>
 							</li>
+
+							<c:set var="sum"
+								value="${sum + (cartList.gdsPrice * cartList.cartStock)}" />
+							<!-- 카트 목록 내의 모든 상품 가격 저장 -->
+
 						</c:forEach>
 					</ul>
+
+					<div class="listResult">
+						<div class="sum">
+							총 합계 :
+							<fmt:formatNumber pattern="###,###,###" value="${sum }" />
+							원
+						</div>
+						<div class="orderOpen">
+							<button type="button" class="orderOpen_btn">주문 정보 입력</button>
+							
+							<script>
+								$(".orderOpen_btn").click(function(){
+									$(".orderInfo").slideDown();
+									$(".orderOpen_btn").slideUp();
+								});
+							</script>
+						</div>
+					</div>
+
+					<div class="orderInfo">
+						<form role="form" method="post" autocomplete="off">
+
+							<input type="hidden" name="amount" value="${sum}" />
+
+							<div class="inputArea">
+								<label for="">수령인</label> <input type="text" name="orderRec"
+									id="orderRec" required />
+							</div>
+
+							<div class="inputArea">
+								<label for="orderPhon">수령인 연락처</label> <input type="text"
+									name="orderPhon" id="orderPhon" required />
+							</div>
+
+							<div class="inputArea">
+								<label for="userAddr1">우편번호</label> <input type="text"
+									name="userAddr1" id="userAddr1" required />
+							</div>
+
+							<div class="inputArea">
+								<label for="userAddr2">1차 주소</label> <input type="text"
+									name="userAddr2" id="userAddr2" required />
+							</div>
+
+							<div class="inputArea">
+								<label for="userAddr3">2차 주소</label> <input type="text"
+									name="userAddr3" id="userAddr3" required />
+							</div>
+
+							<div class="inputArea">
+								<button type="submit" class="order_btn">주문</button>
+								<button type="button" class="cancel_btn">취소</button>
+								
+								<script>
+								$(".cancel_btn").click(function(){
+									$(".orderInfo").slideUp();
+									$(".orderOpen_btn").slideDown();
+								});
+								</script>
+							</div>
+
+						</form>
+
+					</div>
 				</section>
 
 				<aside id="aside">

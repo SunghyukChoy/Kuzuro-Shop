@@ -1,5 +1,7 @@
 package my.likeaglow.kuzuroshop.controller;
 
+import java.text.DecimalFormat;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -18,6 +20,8 @@ import my.likeaglow.kuzuroshop.domain.CartListVO;
 import my.likeaglow.kuzuroshop.domain.CartVO;
 import my.likeaglow.kuzuroshop.domain.GoodsViewVO;
 import my.likeaglow.kuzuroshop.domain.MemberVO;
+import my.likeaglow.kuzuroshop.domain.OrderDetailVO;
+import my.likeaglow.kuzuroshop.domain.OrderVO;
 import my.likeaglow.kuzuroshop.domain.ReplyListVO;
 import my.likeaglow.kuzuroshop.domain.ReplyVO;
 import my.likeaglow.kuzuroshop.service.ShopService;
@@ -189,5 +193,43 @@ public class ShopController {
             result = 1;
         }
         return result;
+    }
+
+    // 주문
+    @RequestMapping(value = "/cartList", method = RequestMethod.POST)
+    public String order(HttpSession session, OrderVO order, OrderDetailVO orderDetail) throws Exception {
+        logger.info("order");
+
+        MemberVO member = (MemberVO) session.getAttribute("member");
+        String userId = member.getUserId();
+
+        Calendar cal = Calendar.getInstance();
+        int year = cal.get(Calendar.YEAR);
+        String ym = year + new DecimalFormat("00").format(cal.get(Calendar.MONTH) + 1);
+        String ymd = ym + new DecimalFormat("00").format(cal.get(Calendar.DATE));
+        String subNum = "";
+
+        for (int i = 1; i <= 6; i++) {
+            subNum += (int) (Math.random() * 10);
+        }
+
+        String orderId = ymd + "_" + subNum; // 날짜와 랜덤 번호를 이용한 orderId 생성
+
+        logger.info("000찍히냐---------------------------------------------------");
+        order.setOrderId(orderId);
+        order.setUserId(userId);
+
+        service.orderInfo(order);
+
+        logger.info("111찍히냐---------------------------------------------------");
+        orderDetail.setOrderId(orderId);
+        logger.info("11@@@@@@@@1찍히냐---------------------------------------------------");
+        service.orderInfo_Details(orderDetail);
+
+        service.cartAllDelete(userId); // 주문 후 카트 비우기
+
+        logger.info("222찍히냐---------------------------------------------------");
+
+        return "redirect:/shop/orderList";
     }
 }

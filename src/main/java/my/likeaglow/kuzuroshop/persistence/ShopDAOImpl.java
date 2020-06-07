@@ -11,6 +11,8 @@ import org.springframework.stereotype.Repository;
 import my.likeaglow.kuzuroshop.domain.CartListVO;
 import my.likeaglow.kuzuroshop.domain.CartVO;
 import my.likeaglow.kuzuroshop.domain.GoodsViewVO;
+import my.likeaglow.kuzuroshop.domain.OrderDetailVO;
+import my.likeaglow.kuzuroshop.domain.OrderVO;
 import my.likeaglow.kuzuroshop.domain.ReplyListVO;
 import my.likeaglow.kuzuroshop.domain.ReplyVO;
 
@@ -104,5 +106,26 @@ public class ShopDAOImpl implements ShopDAO {
     public void deleteCart(CartVO cart) throws Exception {
 
         sql.delete(namespace + ".deleteCart", cart);
+    }
+
+    // 주문 정보
+    @Override
+    public void orderInfo(OrderVO order) throws Exception {
+
+        sql.insert(namespace + ".orderInfo", order);
+    }
+
+    // 주문 상세 정보
+    @Override
+    public void orderInfo_Details(OrderDetailVO orderDetail) throws Exception {
+
+        sql.insert(namespace + ".orderInfo_Details" + orderDetail);
+    }
+
+    // 카트 비우기
+    @Override
+    public void cartAllDelete(String userId) throws Exception {
+
+        sql.delete(namespace + ".cartAllDelete", userId);
     }
 }
