@@ -121,6 +121,23 @@
 	<update id="delivery">
 		update tbl_order
 		set delivery = #{delivery}
-		where orderId = #{orderId}
+		where
+		orderId = #{orderId}
 	</update>
+
+	<!-- 상품 수량 조절 -->
+	<update id="changeStock">
+		update tbl_goods
+		set gdsStock = gdsStock - #{gdsStock}
+		where gdsNum = #{gdsNum}
+	</update>
+
+	<!-- 상품 수량 조절 보조 -->
+	<select id="changeStock_sub"
+		resultType="my.likeaglow.kuzuroshop.domain.OrderDetailVO">
+		select orderId, gdsNum, cartStock
+		from
+		tbl_order_details
+		where orderId = #{orderId}
+	</select>
 </mapper>

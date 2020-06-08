@@ -254,6 +254,17 @@ public class AdminController {
 
         adminService.delivery(order);
 
+        // 상품 수량 조절 - orderView 그대로 사용
+        List<OrderListVO> orderView = adminService.orderView(order);
+        GoodsVO goods = new GoodsVO();
+
+        for (OrderListVO i : orderView) {
+            goods.setGdsNum(i.getGdsNum());
+            goods.setGdsStock(i.getCartStock());
+            adminService.changeStock(goods);
+        }
+
         return "redirect:/admin/shop/orderView?n=" + order.getOrderId();
     }
+
 }

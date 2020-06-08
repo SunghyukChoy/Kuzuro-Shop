@@ -422,19 +422,22 @@ div.modalContent button.modal_cancel {
 									value="${view.gdsStock }" />
 								EA
 							</p>
-							<p class="cartStock">
-								<span>구입 수량</span>
-								<button type="button" class="plus">+</button>
-								<input type="number" class="numBox" min="1"
-									max="${view.gdsStock }" value="1" readonly="readonly" />
-								<button type="button" class="minus">-</button>
 
-								<script>
+							<c:if test="${view.gdsStock != 0 }">
+
+								<p class="cartStock">
+									<span>구입 수량</span>
+									<button type="button" class="plus">+</button>
+									<input type="number" class="numBox" min="1"
+										max="${view.gdsStock }" value="1" readonly="readonly" />
+									<button type="button" class="minus">-</button>
+
+									<script>
 									$(".plus").click(function(){
 										var num = $(".numBox").val();
 										var plusNum = Number(num) + 1;
 										
-										if(plusNum >= ${view.gdsStock}){
+										if(plusNum > ${view.gdsStock}){
 											$(".numBox").val(num);
 										} else {
 											$(".numBox").val(plusNum);
@@ -452,11 +455,12 @@ div.modalContent button.modal_cancel {
 										}
 									});
 								</script>
-							</p>
-							<p class="addToCart">
-								<button type="button" class="addCart_btn">카트에 담기</button>
+								</p>
+								
+								<p class="addToCart">
+									<button type="button" class="addCart_btn">카트에 담기</button>
 
-								<script>
+									<script>
 									$(".addCart_btn").click(function(){
 										var gdsNum = $("#gdsNum").val();
 										var cartStock = $(".numBox").val();
@@ -486,7 +490,13 @@ div.modalContent button.modal_cancel {
 										});
 									});
 								</script>
-							</p>
+								</p>
+
+							</c:if>
+
+							<c:if test="${view.gdsStock <= 0 }">
+								<p>상품 수량이 부족합니다.</p>
+							</c:if>
 						</div>
 
 						<div class="gdsDes">${view.gdsDes }</div>
