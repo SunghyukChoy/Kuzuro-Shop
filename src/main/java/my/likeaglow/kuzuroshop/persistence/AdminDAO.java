@@ -7,6 +7,7 @@ import my.likeaglow.kuzuroshop.domain.GoodsVO;
 import my.likeaglow.kuzuroshop.domain.GoodsViewVO;
 import my.likeaglow.kuzuroshop.domain.OrderListVO;
 import my.likeaglow.kuzuroshop.domain.OrderVO;
+import my.likeaglow.kuzuroshop.domain.ReplyListVO;
 
 public interface AdminDAO {
 
@@ -39,4 +40,10 @@ public interface AdminDAO {
 
     // 상품 수량 조절
     public void changeStock(GoodsVO goods) throws Exception;
+
+    // 모든 소감(댓글)
+    public List<ReplyListVO> allReply() throws Exception;
+
+    // 소감(댓글) 삭제
+    public void deleteReply(int repNum) throws Exception;
 }

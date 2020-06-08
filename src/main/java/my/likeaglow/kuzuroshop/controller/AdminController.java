@@ -27,6 +27,8 @@ import my.likeaglow.kuzuroshop.domain.GoodsVO;
 import my.likeaglow.kuzuroshop.domain.GoodsViewVO;
 import my.likeaglow.kuzuroshop.domain.OrderListVO;
 import my.likeaglow.kuzuroshop.domain.OrderVO;
+import my.likeaglow.kuzuroshop.domain.ReplyListVO;
+import my.likeaglow.kuzuroshop.domain.ReplyVO;
 import my.likeaglow.kuzuroshop.service.AdminService;
 import my.likeaglow.kuzuroshop.utils.UploadFileUtils;
 import net.sf.json.JSONArray;
@@ -267,4 +269,23 @@ public class AdminController {
         return "redirect:/admin/shop/orderView?n=" + order.getOrderId();
     }
 
+    // 모든 소감(댓글)
+    @RequestMapping(value = "/shop/allReply", method = RequestMethod.GET)
+    public void getAllReply(Model model) throws Exception {
+        logger.info("get all reply");
+
+        List<ReplyListVO> reply = adminService.allReply();
+
+        model.addAttribute("reply", reply);
+    }
+
+    // 모든 소감(댓글)
+    @RequestMapping(value = "/shop/allReply", method = RequestMethod.POST)
+    public String postAllReply(ReplyVO reply) throws Exception {
+        logger.info("post all reply");
+
+        adminService.deleteReply(reply.getRepNum());
+
+        return "redirect:/admin/shop/allReply";
+    }
 }

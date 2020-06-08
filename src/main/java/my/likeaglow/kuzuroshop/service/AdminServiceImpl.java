@@ -11,6 +11,7 @@ import my.likeaglow.kuzuroshop.domain.GoodsVO;
 import my.likeaglow.kuzuroshop.domain.GoodsViewVO;
 import my.likeaglow.kuzuroshop.domain.OrderListVO;
 import my.likeaglow.kuzuroshop.domain.OrderVO;
+import my.likeaglow.kuzuroshop.domain.ReplyListVO;
 import my.likeaglow.kuzuroshop.persistence.AdminDAO;
 
 @Service
@@ -87,5 +88,19 @@ public class AdminServiceImpl implements AdminService {
     public void changeStock(GoodsVO goods) throws Exception {
 
         dao.changeStock(goods);
+    }
+
+    // 모든 소감(댓글)
+    @Override
+    public List<ReplyListVO> allReply() throws Exception {
+
+        return dao.allReply();
+    }
+
+    // 소감(댓글) 삭제
+    @Override
+    public void deleteReply(int repNum) throws Exception {
+
+        dao.deleteReply(repNum);
     }
 }

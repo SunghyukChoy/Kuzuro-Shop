@@ -12,6 +12,7 @@ import my.likeaglow.kuzuroshop.domain.GoodsVO;
 import my.likeaglow.kuzuroshop.domain.GoodsViewVO;
 import my.likeaglow.kuzuroshop.domain.OrderListVO;
 import my.likeaglow.kuzuroshop.domain.OrderVO;
+import my.likeaglow.kuzuroshop.domain.ReplyListVO;
 
 @Repository
 public class AdminDAOImpl implements AdminDAO {
@@ -90,5 +91,19 @@ public class AdminDAOImpl implements AdminDAO {
     public void changeStock(GoodsVO goods) throws Exception {
 
         sql.update(namespace + ".changeStock", goods);
+    }
+
+    // 모든 소감(댓글)
+    @Override
+    public List<ReplyListVO> allReply() throws Exception {
+
+        return sql.selectList(namespace + ".allReply");
+    }
+
+    // 소감(댓글) 삭제
+    @Override
+    public void deleteReply(int repNum) throws Exception {
+
+        sql.delete(namespace + ".deleteReply", repNum);
     }
 }
