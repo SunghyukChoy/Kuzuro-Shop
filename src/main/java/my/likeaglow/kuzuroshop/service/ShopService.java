@@ -6,6 +6,7 @@ import my.likeaglow.kuzuroshop.domain.CartListVO;
 import my.likeaglow.kuzuroshop.domain.CartVO;
 import my.likeaglow.kuzuroshop.domain.GoodsViewVO;
 import my.likeaglow.kuzuroshop.domain.OrderDetailVO;
+import my.likeaglow.kuzuroshop.domain.OrderListVO;
 import my.likeaglow.kuzuroshop.domain.OrderVO;
 import my.likeaglow.kuzuroshop.domain.ReplyListVO;
 import my.likeaglow.kuzuroshop.domain.ReplyVO;
@@ -50,4 +51,10 @@ public interface ShopService {
 
     // 카트 비우기
     public void cartAllDelete(String userId) throws Exception;
+
+    // 주문 목록
+    public List<OrderVO> orderList(OrderVO order) throws Exception;
+
+    // 특정 주문 목록
+    public List<OrderListVO> orderView(OrderVO order) throws Exception;
 }

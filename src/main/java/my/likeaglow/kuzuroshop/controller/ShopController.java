@@ -21,6 +21,7 @@ import my.likeaglow.kuzuroshop.domain.CartVO;
 import my.likeaglow.kuzuroshop.domain.GoodsViewVO;
 import my.likeaglow.kuzuroshop.domain.MemberVO;
 import my.likeaglow.kuzuroshop.domain.OrderDetailVO;
+import my.likeaglow.kuzuroshop.domain.OrderListVO;
 import my.likeaglow.kuzuroshop.domain.OrderVO;
 import my.likeaglow.kuzuroshop.domain.ReplyListVO;
 import my.likeaglow.kuzuroshop.domain.ReplyVO;
@@ -215,21 +216,48 @@ public class ShopController {
 
         String orderId = ymd + "_" + subNum; // 날짜와 랜덤 번호를 이용한 orderId 생성
 
-        logger.info("000찍히냐---------------------------------------------------");
         order.setOrderId(orderId);
         order.setUserId(userId);
 
         service.orderInfo(order);
 
-        logger.info("111찍히냐---------------------------------------------------");
         orderDetail.setOrderId(orderId);
-        logger.info("11@@@@@@@@1찍히냐---------------------------------------------------");
         service.orderInfo_Details(orderDetail);
 
         service.cartAllDelete(userId); // 주문 후 카트 비우기
 
-        logger.info("222찍히냐---------------------------------------------------");
-
         return "redirect:/shop/orderList";
+    }
+
+    // 주문 목록
+    @RequestMapping(value = "orderList", method = RequestMethod.GET)
+    public void getOrderList(HttpSession session, OrderVO order, Model model) throws Exception {
+        logger.info("get order list");
+
+        MemberVO member = (MemberVO) session.getAttribute("member");
+        String userId = member.getUserId();
+
+        order.setUserId(userId);
+
+        List<OrderVO> orderList = service.orderList(order);
+
+        model.addAttribute("orderList", orderList);
+    }
+
+    // 주문 상세 목록
+    @RequestMapping(value = "/orderView", method = RequestMethod.GET)
+    public void getOrderList(HttpSession session, @RequestParam("n") String orderId, OrderVO order, Model model)
+            throws Exception {
+        logger.info("get order view");
+
+        MemberVO member = (MemberVO) session.getAttribute("member");
+        String userId = member.getUserId();
+
+        order.setUserId(userId);
+        order.setOrderId(orderId);
+
+        List<OrderListVO> orderView = service.orderView(order);
+
+        model.addAttribute("orderView", orderView);
     }
 }

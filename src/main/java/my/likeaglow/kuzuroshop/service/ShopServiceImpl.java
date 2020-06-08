@@ -10,6 +10,7 @@ import my.likeaglow.kuzuroshop.domain.CartListVO;
 import my.likeaglow.kuzuroshop.domain.CartVO;
 import my.likeaglow.kuzuroshop.domain.GoodsViewVO;
 import my.likeaglow.kuzuroshop.domain.OrderDetailVO;
+import my.likeaglow.kuzuroshop.domain.OrderListVO;
 import my.likeaglow.kuzuroshop.domain.OrderVO;
 import my.likeaglow.kuzuroshop.domain.ReplyListVO;
 import my.likeaglow.kuzuroshop.domain.ReplyVO;
@@ -120,5 +121,19 @@ public class ShopServiceImpl implements ShopService {
     public void cartAllDelete(String userId) throws Exception {
 
         dao.cartAllDelete(userId);
+    }
+
+    // 주문 목록
+    @Override
+    public List<OrderVO> orderList(OrderVO order) throws Exception {
+
+        return dao.orderList(order);
+    }
+
+    // 특정 주문 목록
+    @Override
+    public List<OrderListVO> orderView(OrderVO order) throws Exception {
+
+        return dao.orderView(order);
     }
 }

@@ -12,6 +12,7 @@ import my.likeaglow.kuzuroshop.domain.CartListVO;
 import my.likeaglow.kuzuroshop.domain.CartVO;
 import my.likeaglow.kuzuroshop.domain.GoodsViewVO;
 import my.likeaglow.kuzuroshop.domain.OrderDetailVO;
+import my.likeaglow.kuzuroshop.domain.OrderListVO;
 import my.likeaglow.kuzuroshop.domain.OrderVO;
 import my.likeaglow.kuzuroshop.domain.ReplyListVO;
 import my.likeaglow.kuzuroshop.domain.ReplyVO;
@@ -119,7 +120,7 @@ public class ShopDAOImpl implements ShopDAO {
     @Override
     public void orderInfo_Details(OrderDetailVO orderDetail) throws Exception {
 
-        sql.insert(namespace + ".orderInfo_Details" + orderDetail);
+        sql.insert(namespace + ".orderInfo_Details", orderDetail);
     }
 
     // 카트 비우기
@@ -128,4 +129,19 @@ public class ShopDAOImpl implements ShopDAO {
 
         sql.delete(namespace + ".cartAllDelete", userId);
     }
+
+    // 주문 록록
+    @Override
+    public List<OrderVO> orderList(OrderVO order) throws Exception {
+
+        return sql.selectList(namespace + ".orderList", order);
+    }
+
+    // 특정 주문 목록
+    @Override
+    public List<OrderListVO> orderView(OrderVO order) throws Exception {
+
+        return sql.selectList(namespace + ".orderView", order);
+    }
+
 }
