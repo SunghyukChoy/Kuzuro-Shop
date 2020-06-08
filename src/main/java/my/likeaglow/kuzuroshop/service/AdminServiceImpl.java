@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import my.likeaglow.kuzuroshop.domain.CategoryVO;
 import my.likeaglow.kuzuroshop.domain.GoodsVO;
 import my.likeaglow.kuzuroshop.domain.GoodsViewVO;
+import my.likeaglow.kuzuroshop.domain.OrderListVO;
+import my.likeaglow.kuzuroshop.domain.OrderVO;
 import my.likeaglow.kuzuroshop.persistence.AdminDAO;
 
 @Service
@@ -57,5 +59,26 @@ public class AdminServiceImpl implements AdminService {
     public void goodsDelete(int gdsNum) throws Exception {
 
         dao.goodsDelete(gdsNum);
+    }
+
+    // 주문 목록
+    @Override
+    public List<OrderVO> orderList() throws Exception {
+
+        return dao.orderList();
+    }
+
+    // 특정 주문 목록
+    @Override
+    public List<OrderListVO> orderView(OrderVO order) throws Exception {
+
+        return dao.orderView(order);
+    }
+
+    // 배송 상태
+    @Override
+    public void delivery(OrderVO order) throws Exception {
+
+        dao.delivery(order);
     }
 }

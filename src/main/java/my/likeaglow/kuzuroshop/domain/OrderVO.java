@@ -24,6 +24,8 @@ public class OrderVO {
     private int amount;
     private Date orderDate;
 
+    private String delivery;
+
     public String getOrderId() {
         return orderId;
     }
@@ -95,4 +97,13 @@ public class OrderVO {
     public void setOrderDate(Date orderDate) {
         this.orderDate = orderDate;
     }
+
+    public String getDelivery() {
+        return delivery;
+    }
+
+    public void setDelivery(String delivery) {
+        this.delivery = delivery;
+    }
+
 }

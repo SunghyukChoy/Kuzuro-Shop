@@ -25,6 +25,8 @@ import org.springframework.web.multipart.MultipartFile;
 import my.likeaglow.kuzuroshop.domain.CategoryVO;
 import my.likeaglow.kuzuroshop.domain.GoodsVO;
 import my.likeaglow.kuzuroshop.domain.GoodsViewVO;
+import my.likeaglow.kuzuroshop.domain.OrderListVO;
+import my.likeaglow.kuzuroshop.domain.OrderVO;
 import my.likeaglow.kuzuroshop.service.AdminService;
 import my.likeaglow.kuzuroshop.utils.UploadFileUtils;
 import net.sf.json.JSONArray;
@@ -222,5 +224,36 @@ public class AdminController {
         adminService.goodsDelete(gdsNum);
 
         return "redirect:/admin/index";
+    }
+
+    // 주문 목록
+    @RequestMapping(value = "/shop/orderList", method = RequestMethod.GET)
+    public void getOrderList(Model model) throws Exception {
+        logger.info("get order list");
+
+        List<OrderVO> orderList = adminService.orderList();
+
+        model.addAttribute("orderList", orderList);
+    }
+
+    // 주문 상세 목록
+    @RequestMapping(value = "/shop/orderView", method = RequestMethod.GET)
+    public void getOrderList(@RequestParam("n") String orderId, OrderVO order, Model model) throws Exception {
+        logger.info("get order view");
+
+        order.setOrderId(orderId);
+        List<OrderListVO> orderView = adminService.orderView(order);
+
+        model.addAttribute("orderView", orderView);
+    }
+
+    // 주문 상세 조회 - 상태 변경
+    @RequestMapping(value = "/shop/orderView", method = RequestMethod.POST)
+    public String delivery(OrderVO order) throws Exception {
+        logger.info("post order view");
+
+        adminService.delivery(order);
+
+        return "redirect:/admin/shop/orderView?n=" + order.getOrderId();
     }
 }

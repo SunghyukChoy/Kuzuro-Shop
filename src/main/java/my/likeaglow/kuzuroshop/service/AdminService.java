@@ -5,6 +5,8 @@ import java.util.List;
 import my.likeaglow.kuzuroshop.domain.CategoryVO;
 import my.likeaglow.kuzuroshop.domain.GoodsVO;
 import my.likeaglow.kuzuroshop.domain.GoodsViewVO;
+import my.likeaglow.kuzuroshop.domain.OrderListVO;
+import my.likeaglow.kuzuroshop.domain.OrderVO;
 
 public interface AdminService {
 
@@ -25,4 +27,13 @@ public interface AdminService {
 
     // 상품 삭제
     public void goodsDelete(int gdsNum) throws Exception;
+
+    // 주문 목록
+    public List<OrderVO> orderList() throws Exception;
+
+    // 특정 주문 목록
+    public List<OrderListVO> orderView(OrderVO order) throws Exception;
+
+    // 배송 상태
+    public void delivery(OrderVO order) throws Exception;
 }
